@@ -1,5 +1,5 @@
 `timescale 1ps/1ps
-module lab2_tb(
+module lab2_1_tb(
 );
 logic a1;
 logic b1;
