@@ -1,4 +1,4 @@
-module lab2(output logic x, y,
+module lab2_1(output logic x, y,
 input logic a,b,c
 );
    logic l;
