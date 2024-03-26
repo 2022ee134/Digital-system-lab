@@ -1,11 +1,11 @@
  module lab7(
    input logic [3:0]num,
-   input logic[2:0]sel,
-   input logic write,
-   input logic clock,
-   input logic reset,
+   logic[2:0]sel,
+   logic write,
+   logic clock,
+   logic reset,
    output logic [7:0]display,
-   output logic[6:0]segments
+   logic[6:0]segments
 );
 logic [3:0]a1;
 logic [3:0]a2;
@@ -16,6 +16,8 @@ logic [3:0]a6;
 logic [3:0]a7;
 logic [3:0]a8;
 logic [3:0]m;
+logic [3:0]mnum;
+logic [2:0]msel;
 logic clock2=0;
 logic [2:0]sel2=0;
 logic [16:0]count=0;
@@ -98,9 +100,16 @@ case (sel2)
     end
     endcase
 end
+always_comb begin 
+    if (write)begin
+        msel=sel;
+    end
+    else begin
+        msel=sel2;
+    end
+end
 always_comb begin
-    if (!write) begin
-     case(sel2)
+     case(msel)
     3'b000:display=8'b11111110;
     3'b001:display=8'b11111101;
     3'b010:display=8'b11111011;
@@ -114,12 +123,16 @@ always_comb begin
         end
     endcase
     end
+always_comb begin 
+    if (write)begin
+        mnum=num;
+    end
     else begin
-        display=8'b11111111;
+        mnum=m;
     end
 end
 always_comb begin 
-    case (m)
+    case (mnum)
     4'h0:segments=7'b0000001;
     4'h1:segments=7'b1001111;
     4'h2:segments=7'b0010010;
@@ -140,6 +153,5 @@ always_comb begin
          segments=7'b1111111;
         end
     endcase
-    
-end
+   end 
 endmodule
